@@ -9,21 +9,25 @@
     />
     <title>Ace Kyamko | Personal Profile</title>
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.min.js"></script>
     <script src="script.js" defer></script>
   </head>
 
   <body>
     <!-- INTRO -->
-    <div class="intro-screen" aria-hidden="true">
+    <div class="intro-screen">
       <div class="intro-stage">
         <span class="intro-ring intro-ring-outer" aria-hidden="true"></span>
         <span class="intro-ring intro-ring-inner" aria-hidden="true"></span>
 
-        <div class="intro-orb" aria-hidden="true">
+        <button
+          type="button"
+          class="intro-orb"
+          aria-label="Enter Ace Kyamko personal profile"
+        >
           <span class="intro-orb-highlight"></span>
           <span class="intro-orb-glint"></span>
-        </div>
+        </button>
 
         <p class="intro-label">ALAS / PERSONAL PROFILE / 2026</p>
       </div>
@@ -63,7 +67,7 @@
 
               <nav class="social-links" aria-label="Social media links">
                 <a
-                  href="https://github.com/HeyAlas?tab=overview&amp;from=2026-09-01&amp;to=2026-09-20"
+                  href="https://github.com/HeyAlas"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -71,9 +75,7 @@
                 </a>
 
                 <a
-                  href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=acegrantk@gmail.com"
-                  target="_blank"
-                  rel="noreferrer"
+                  href="mailto:acegrantk@gmail.com"
                 >
                   Email
                 </a>
@@ -121,20 +123,7 @@
                 alt="ALAS chrome wordmark"
               />
 
-              <div class="chrome-logo-wrap">
-                <img
-                  class="chrome-logo"
-                  src="assets/ALAS_CHROME.png"
-                  alt="ALAS chrome wordmark"
-                />
-
-                <img
-                  class="chrome-reflection"
-                  src="assets/ALAS_CHROME.png"
-                  alt=""
-                  aria-hidden="true"
-                />
-              </div>
+              <div class="chrome-logo-wrap" aria-hidden="true"></div>
             </div>
           </div>
 
@@ -458,7 +447,9 @@
               class="project-card reveal-block"
               data-project-card
               tabindex="0"
+              role="button"
               aria-expanded="false"
+              aria-controls="project-details-convertit"
             >
               <div class="project-preview project-preview-convertit" role="img" aria-label="Sample preview of the U-Convertit web app">
                 <div class="convertit-canvas" aria-hidden="true">
@@ -478,7 +469,7 @@
 
                 <h3>U-CONVERTIT</h3>
 
-                <div class="project-details">
+                <div class="project-details" id="project-details-convertit">
                   <p>
                     A utility-focused web app for quick conversion tasks, built
                     around a clean workflow and accessible interface.
@@ -505,7 +496,9 @@
               class="project-card reveal-block"
               data-project-card
               tabindex="0"
+              role="button"
               aria-expanded="false"
+              aria-controls="project-details-chinsai"
             >
               <div class="project-preview project-preview-chinsai" role="img" aria-label="Sample preview of the ChinSai invitation website">
                 <div class="preview-window">
@@ -524,7 +517,7 @@
 
                 <h3>CHINSAI INVITATION</h3>
 
-                <div class="project-details">
+                <div class="project-details" id="project-details-chinsai">
                   <p>
                     A refined digital invitation experience that balances visual
                     clarity, simple interaction, and memorable presentation.
@@ -623,16 +616,26 @@
             <span class="muted-word">ALWAYS LEARNING.</span>
           </div>
 
-          <div class="feature-memoji-float reveal-block">
+          <span class="creative-front" aria-hidden="true">CREATIVE.</span>
+
+          <div class="feature-memoji-position">
             <div
-              class="memoji-shell memoji-shell-feature"
-              data-directional
+              class="feature-memoji-float reveal-block"
+              role="button"
+              tabindex="0"
+              aria-label="Toggle Memoji depth effect"
+              aria-pressed="false"
             >
-              <img
-                class="feature-memoji"
-                src="assets/ALAS_MEMOJI.png"
-                alt="Large Memoji illustration of Ace Kyamko"
-              />
+              <div
+                class="memoji-shell memoji-shell-feature"
+                data-directional
+              >
+                <img
+                  class="feature-memoji"
+                  src="assets/ALAS_MEMOJI.png"
+                  alt="Large Memoji illustration of Ace Kyamko"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -656,7 +659,7 @@
 
         <nav class="footer-links" aria-label="Contact links">
           <a
-            href="https://github.com/HeyAlas?tab=overview&amp;from=2026-09-01&amp;to=2026-09-20"
+            href="https://github.com/HeyAlas"
             target="_blank"
             rel="noreferrer"
           >
@@ -664,9 +667,7 @@
           </a>
 
           <a
-            href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=acegrantk@gmail.com"
-            target="_blank"
-            rel="noreferrer"
+            href="mailto:acegrantk@gmail.com"
           >
             Email ↗
           </a>

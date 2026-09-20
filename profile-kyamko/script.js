@@ -23,8 +23,6 @@ function handleLockedScroll(event) {
   }
 }
 
-lockScrollUntilEntry();
-
 window.addEventListener("wheel", handleLockedScroll, { passive: false });
 window.addEventListener("touchmove", handleLockedScroll, { passive: false });
 window.addEventListener("keydown", (event) => {
@@ -42,7 +40,13 @@ const finePointer = window.matchMedia(
   "(hover: hover) and (pointer: fine)"
 );
 
+const compactViewport = window.matchMedia(
+  "(max-width: 700px)"
+);
+
 const introScreen = document.querySelector(".intro-screen");
+const introStage = document.querySelector(".intro-stage");
+const introOrb = document.querySelector(".intro-orb");
 const header = document.querySelector(".site-header");
 const coverLink = document.querySelector(".cover-link");
 const entrySection = document.querySelector("#profile-entry");
@@ -73,20 +77,20 @@ let introStarted = false;
 let introTransitionTimer = null;
 
 function resetIntroPointerState() {
-  if (!introScreen) {
+  if (!introScreen || !introStage || !introOrb) {
     return;
   }
 
-  introScreen.style.setProperty("--intro-tilt-x", "0deg");
-  introScreen.style.setProperty("--intro-tilt-y", "0deg");
-  introScreen.style.setProperty("--intro-shift-x", "0px");
-  introScreen.style.setProperty("--intro-shift-y", "0px");
-  introScreen.style.setProperty("--orb-shift-x", "0px");
-  introScreen.style.setProperty("--orb-shift-y", "0px");
-  introScreen.style.setProperty("--orb-scale", "1");
-  introScreen.style.setProperty("--orb-roll", "0deg");
-  introScreen.style.setProperty("--intro-glow-x", "50%");
-  introScreen.style.setProperty("--intro-glow-y", "38%");
+  introStage.style.setProperty("--intro-shift-x", "0px");
+  introStage.style.setProperty("--intro-shift-y", "0px");
+  introOrb.style.setProperty("--intro-tilt-x", "0deg");
+  introOrb.style.setProperty("--intro-tilt-y", "0deg");
+  introOrb.style.setProperty("--orb-shift-x", "0px");
+  introOrb.style.setProperty("--orb-shift-y", "0px");
+  introOrb.style.setProperty("--orb-scale", "1");
+  introOrb.style.setProperty("--orb-roll", "0deg");
+  introOrb.style.setProperty("--intro-glow-x", "50%");
+  introOrb.style.setProperty("--intro-glow-y", "38%");
 }
 
 function reactToIntroPointer(event) {
@@ -94,7 +98,7 @@ function reactToIntroPointer(event) {
     return;
   }
 
-  const rect = introScreen.getBoundingClientRect();
+  const rect = introOrb.getBoundingClientRect();
   const x = (event.clientX - rect.left) / rect.width;
   const y = (event.clientY - rect.top) / rect.height;
 
@@ -105,15 +109,15 @@ function reactToIntroPointer(event) {
   const orbShiftX = ((0.5 - x) * 26).toFixed(2);
   const orbShiftY = ((0.5 - y) * 18).toFixed(2);
 
-  introScreen.style.setProperty("--intro-tilt-x", `${tiltX}deg`);
-  introScreen.style.setProperty("--intro-tilt-y", `${tiltY}deg`);
-  introScreen.style.setProperty("--intro-shift-x", `${shiftX}px`);
-  introScreen.style.setProperty("--intro-shift-y", `${shiftY}px`);
-  introScreen.style.setProperty("--orb-shift-x", `${orbShiftX}px`);
-  introScreen.style.setProperty("--orb-shift-y", `${orbShiftY}px`);
-  introScreen.style.setProperty("--orb-roll", `${((x - 0.5) * 10).toFixed(2)}deg`);
-  introScreen.style.setProperty("--intro-glow-x", `${(x * 100).toFixed(1)}%`);
-  introScreen.style.setProperty("--intro-glow-y", `${(y * 100).toFixed(1)}%`);
+  introStage.style.setProperty("--intro-shift-x", `${shiftX * 0.45}px`);
+  introStage.style.setProperty("--intro-shift-y", `${shiftY * 0.45}px`);
+  introOrb.style.setProperty("--intro-tilt-x", `${tiltX * 0.55}deg`);
+  introOrb.style.setProperty("--intro-tilt-y", `${tiltY * 0.55}deg`);
+  introOrb.style.setProperty("--orb-shift-x", `${orbShiftX}px`);
+  introOrb.style.setProperty("--orb-shift-y", `${orbShiftY}px`);
+  introOrb.style.setProperty("--orb-roll", `${((x - 0.5) * 4).toFixed(2)}deg`);
+  introOrb.style.setProperty("--intro-glow-x", `${(x * 100).toFixed(1)}%`);
+  introOrb.style.setProperty("--intro-glow-y", `${(y * 100).toFixed(1)}%`);
 }
 
 function reactToIntroTap(event) {
@@ -121,19 +125,19 @@ function reactToIntroTap(event) {
     return;
   }
 
-  const rect = introScreen.getBoundingClientRect();
+  const rect = introOrb.getBoundingClientRect();
   const x = (event.clientX - rect.left) / rect.width;
   const y = (event.clientY - rect.top) / rect.height;
 
-  introScreen.style.setProperty("--intro-tilt-x", `${((0.5 - y) * 5).toFixed(2)}deg`);
-  introScreen.style.setProperty("--intro-tilt-y", `${((x - 0.5) * 8).toFixed(2)}deg`);
-  introScreen.style.setProperty("--intro-shift-x", `${((x - 0.5) * 12).toFixed(2)}px`);
-  introScreen.style.setProperty("--intro-shift-y", `${((y - 0.5) * 12).toFixed(2)}px`);
-  introScreen.style.setProperty("--orb-shift-x", `${((0.5 - x) * 18).toFixed(2)}px`);
-  introScreen.style.setProperty("--orb-shift-y", `${((0.5 - y) * 12).toFixed(2)}px`);
-  introScreen.style.setProperty("--orb-scale", "0.96");
-  introScreen.style.setProperty("--intro-glow-x", `${(x * 100).toFixed(1)}%`);
-  introScreen.style.setProperty("--intro-glow-y", `${(y * 100).toFixed(1)}%`);
+  introStage.style.setProperty("--intro-shift-x", `${((x - 0.5) * 6).toFixed(2)}px`);
+  introStage.style.setProperty("--intro-shift-y", `${((y - 0.5) * 6).toFixed(2)}px`);
+  introOrb.style.setProperty("--intro-tilt-x", `${((0.5 - y) * 4).toFixed(2)}deg`);
+  introOrb.style.setProperty("--intro-tilt-y", `${((x - 0.5) * 6).toFixed(2)}deg`);
+  introOrb.style.setProperty("--orb-shift-x", `${((0.5 - x) * 10).toFixed(2)}px`);
+  introOrb.style.setProperty("--orb-shift-y", `${((0.5 - y) * 8).toFixed(2)}px`);
+  introOrb.style.setProperty("--orb-scale", "0.97");
+  introOrb.style.setProperty("--intro-glow-x", `${(x * 100).toFixed(1)}%`);
+  introOrb.style.setProperty("--intro-glow-y", `${(y * 100).toFixed(1)}%`);
 
   window.setTimeout(() => {
     if (introScreen) {
@@ -162,7 +166,6 @@ function finishIntro() {
 
   if (introScreen) {
     introScreen.classList.remove("is-activated");
-    introScreen.setAttribute("aria-hidden", "true");
     introScreen.style.pointerEvents = "none";
   }
 }
@@ -180,7 +183,6 @@ function beginIntroTransition() {
   if (introScreen) {
     introScreen.classList.add("is-activated");
     introScreen.style.pointerEvents = "none";
-    introScreen.setAttribute("aria-hidden", "false");
   }
 
   introTransitionTimer = window.setTimeout(finishIntro, 3100);
@@ -201,13 +203,13 @@ function skipIntro() {
   }
 }
 
-if (introScreen) {
-  introScreen.setAttribute("aria-hidden", "false");
+if (introScreen && introStage && introOrb) {
+  lockScrollUntilEntry();
   introScreen.style.pointerEvents = "auto";
   introScreen.classList.add("is-idle");
   resetIntroPointerState();
 
-  introScreen.addEventListener(
+  introOrb.addEventListener(
     "pointermove",
     (event) => {
       reactToIntroPointer(event);
@@ -215,7 +217,7 @@ if (introScreen) {
     { passive: true }
   );
 
-  introScreen.addEventListener(
+  introOrb.addEventListener(
     "pointerleave",
     () => {
       if (!introStarted) {
@@ -225,7 +227,7 @@ if (introScreen) {
     { passive: true }
   );
 
-  introScreen.addEventListener(
+  introOrb.addEventListener(
     "pointerdown",
     (event) => {
       if (introStarted || introFinished) {
@@ -237,6 +239,8 @@ if (introScreen) {
     },
     { passive: true }
   );
+} else {
+  finishIntro();
 }
 
 document.addEventListener("keydown", (event) => {
@@ -247,6 +251,7 @@ document.addEventListener("keydown", (event) => {
 
 function runIntro() {
   if (!introScreen) {
+    unlockScrollAfterEntry();
     return;
   }
 
@@ -260,7 +265,6 @@ function runIntro() {
     return;
   }
 
-  introScreen.setAttribute("aria-hidden", "false");
   introScreen.style.pointerEvents = "auto";
   introScreen.classList.add("is-idle");
   resetIntroPointerState();
@@ -602,9 +606,12 @@ function initThreeChromeScene() {
   const chromeWebglRoot = document.querySelector(".chrome-webgl");
   const fallbackImage = document.querySelector(".chrome-fallback");
 
-  if (!chromeArt || !chromeWebglRoot || !fallbackImage) {
+  if (!chromeArt || !chromeWebglRoot || !fallbackImage || !entrySection) {
     return;
   }
+
+  chromeArt.classList.remove("is-webgl");
+  chromeArt.classList.add("is-fallback");
 
   const THREE = window.THREE;
 
@@ -612,7 +619,8 @@ function initThreeChromeScene() {
     !THREE ||
     !window.WebGLRenderingContext ||
     prefersReducedMotion.matches ||
-    !finePointer.matches
+    !finePointer.matches ||
+    compactViewport.matches
   ) {
     chromeArt.classList.add("is-fallback");
 
@@ -642,22 +650,26 @@ function initThreeChromeScene() {
     chromeWebglRoot.appendChild(renderer.domElement);
 
     const textureLoader = new THREE.TextureLoader();
+    let textureLoaded = false;
+    let updatePlaneGeometry = null;
     const alastTexture = textureLoader.load(
       "assets/ALAS_CHROME.png",
       () => {
-        chromeArt.classList.add("is-webgl");
+        textureLoaded = true;
+        if (updatePlaneGeometry) {
+          updatePlaneGeometry();
+        }
       },
       undefined,
       () => {
+        textureLoaded = false;
         chromeArt.classList.add("is-fallback");
       }
     );
 
     const uniforms = {
-      uTime: { value: 0 },
       uTexture: { value: alastTexture },
-      uPointer: { value: new THREE.Vector2(0, 0) },
-      uScroll: { value: 0 }
+      uPointer: { value: new THREE.Vector2(0, 0) }
     };
 
     const material = new THREE.ShaderMaterial({
@@ -671,12 +683,7 @@ function initThreeChromeScene() {
 
         void main() {
           vUv = uv;
-          vec3 transformed = position;
-
-          transformed.x += uPointer.x * 0.18 * (1.0 - abs(position.y * 0.8));
-          transformed.y += uPointer.y * 0.12 * (1.0 - abs(position.x * 0.7));
-
-          vec4 modelPosition = modelMatrix * vec4(transformed, 1.0);
+          vec4 modelPosition = modelMatrix * vec4(position, 1.0);
           gl_Position = projectionMatrix * viewMatrix * modelPosition;
         }
       `,
@@ -713,21 +720,26 @@ function initThreeChromeScene() {
     });
 
     const alastPlane = new THREE.Mesh(
-      new THREE.PlaneGeometry(7.4, 3.8),
+      new THREE.PlaneGeometry(1, 1),
       material
     );
 
+    updatePlaneGeometry = () => {
+      if (!alastTexture.image || !alastTexture.image.width) {
+        return;
+      }
+
+      const aspect = alastTexture.image.width / alastTexture.image.height;
+      const height = 3.8;
+      const previousGeometry = alastPlane.geometry;
+      alastPlane.geometry = new THREE.PlaneGeometry(height * aspect, height);
+      previousGeometry.dispose();
+    };
+
+    updatePlaneGeometry();
+
     alastPlane.position.z = 0.25;
     scene.add(alastPlane);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.12);
-    const keyLight = new THREE.DirectionalLight(0xffffff, 1.35);
-    const rimLight = new THREE.DirectionalLight(0xa5c4ff, 0.82);
-
-    keyLight.position.set(1.8, 1.2, 3.5);
-    rimLight.position.set(-2.4, -1.2, 2.6);
-
-    scene.add(ambientLight, keyLight, rimLight);
 
     const pointerTarget = new THREE.Vector2(0, 0);
     const pointerCurrent = new THREE.Vector2(0, 0);
@@ -762,10 +774,12 @@ function initThreeChromeScene() {
       hoverBoost.value = 0;
     }
 
-    chromeArt.addEventListener("pointerenter", (event) => {
+    const activatePointerMotion = (event) => {
       chromeArt.classList.add("is-hovered");
       updatePointerFromEvent(event);
-    }, { passive: true });
+    };
+
+    chromeArt.addEventListener("pointerenter", activatePointerMotion, { passive: true });
     chromeArt.addEventListener("pointermove", updatePointerFromEvent, { passive: true });
     chromeArt.addEventListener("pointerleave", handlePointerLeave, { passive: true });
 
@@ -787,8 +801,12 @@ function initThreeChromeScene() {
       pointerCurrent.y = THREE.MathUtils.lerp(pointerCurrent.y, pointerTarget.y, 0.06);
       hoverBoost.value = THREE.MathUtils.lerp(hoverBoost.value, pointerTarget.lengthSq() > 0 ? 1 : 0, 0.08);
 
-      targetRotation.x = pointerCurrent.y * (2.2 + hoverBoost.value * 1.3);
-      targetRotation.y = pointerCurrent.x * (4.6 + hoverBoost.value * 2.2);
+      targetRotation.x = THREE.MathUtils.degToRad(
+        pointerCurrent.y * (2.2 + hoverBoost.value * 0.8)
+      );
+      targetRotation.y = THREE.MathUtils.degToRad(
+        pointerCurrent.x * (4 + hoverBoost.value * 1.2)
+      );
       currentRotation.x = THREE.MathUtils.lerp(currentRotation.x, targetRotation.x, 0.08);
       currentRotation.y = THREE.MathUtils.lerp(currentRotation.y, targetRotation.y, 0.08);
 
@@ -806,32 +824,82 @@ function initThreeChromeScene() {
 
       uniforms.uPointer.value.x = pointerCurrent.x * (0.92 + hoverBoost.value * 0.45);
       uniforms.uPointer.value.y = pointerCurrent.y * (0.92 + hoverBoost.value * 0.45);
-      uniforms.uScroll.value = progress;
-      uniforms.uTime.value += 0.016;
     }
 
     let frameId = null;
+    let isInViewport = false;
+
+    const scheduleFrame = () => {
+      if (!frameId && isInViewport && !document.hidden) {
+        frameId = requestAnimationFrame(animate);
+      }
+    };
 
     function animate() {
+      frameId = null;
       if (!chromeArt || !chromeWebglRoot) {
         return;
       }
 
       updateSceneMotion();
       renderer.render(scene, camera);
-      frameId = requestAnimationFrame(animate);
+
+      if (textureLoaded && !chromeArt.classList.contains("is-webgl")) {
+        chromeArt.classList.remove("is-fallback");
+        chromeArt.classList.add("is-webgl");
+      }
+
+      scheduleFrame();
     }
 
     resizeRenderer();
     updateSceneMotion();
     renderer.render(scene, camera);
-    chromeArt.classList.add("is-webgl");
-    frameId = requestAnimationFrame(animate);
+    const visibilityObserver = new IntersectionObserver(
+      (entries) => {
+        isInViewport = entries[0].isIntersecting;
+        if (isInViewport) {
+          scheduleFrame();
+        } else if (frameId) {
+          cancelAnimationFrame(frameId);
+          frameId = null;
+        }
+      },
+      { rootMargin: "160px 0px" }
+    );
 
-    window.addEventListener("resize", resizeRenderer, { passive: true });
+    visibilityObserver.observe(entrySection);
+
+    const handleVisibilityChange = () => {
+      if (document.hidden && frameId) {
+        cancelAnimationFrame(frameId);
+        frameId = null;
+      } else {
+        scheduleFrame();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    const resizeObserver = "ResizeObserver" in window
+      ? new ResizeObserver(resizeRenderer)
+      : null;
+
+    if (resizeObserver) {
+      resizeObserver.observe(chromeArt);
+    }
+    resizeRenderer();
+    updateSceneMotion();
+    renderer.render(scene, camera);
 
     const cleanup = () => {
       window.removeEventListener("resize", resizeRenderer);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      visibilityObserver.disconnect();
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+      chromeArt.removeEventListener("pointerenter", activatePointerMotion);
       chromeArt.removeEventListener("pointermove", updatePointerFromEvent);
       chromeArt.removeEventListener("pointerleave", handlePointerLeave);
       if (frameId) {
@@ -867,17 +935,10 @@ if (
       ) => {
         entries.forEach(
           (entry) => {
-            if (
+            entry.target.classList.toggle(
+              "is-visible",
               entry.isIntersecting
-            ) {
-              entry.target.classList.add(
-                "is-visible"
-              );
-
-              observer.unobserve(
-                entry.target
-              );
-            }
+            );
           }
         );
       },
@@ -888,21 +949,13 @@ if (
       }
     );
 
-  if (finePointer.matches) {
-    revealBlocks.forEach(
-      (block) => {
-        revealObserver.observe(
-          block
-        );
-      }
-    );
-  } else {
-    revealBlocks.forEach(
-      (block) => {
-        block.classList.add("is-visible");
-      }
-    );
-  }
+  revealBlocks.forEach(
+    (block) => {
+      revealObserver.observe(
+        block
+      );
+    }
+  );
 } else {
   revealBlocks.forEach(
     (block) => {
@@ -917,10 +970,6 @@ const projectCards = document.querySelectorAll("[data-project-card]");
 
 projectCards.forEach((card) => {
   const toggleProjectCard = () => {
-    if (finePointer.matches) {
-      return;
-    }
-
     const isOpen = card.classList.toggle("is-open");
     card.setAttribute("aria-expanded", String(isOpen));
   };
@@ -934,6 +983,10 @@ projectCards.forEach((card) => {
   });
 
   card.addEventListener("keydown", (event) => {
+    if (event.target.closest("a")) {
+      return;
+    }
+
     if (event.key !== "Enter" && event.key !== " ") {
       return;
     }
@@ -945,7 +998,65 @@ projectCards.forEach((card) => {
 
 const depthRows = document.querySelectorAll(".skill-row, .toolkit-row");
 
-if ("IntersectionObserver" in window && finePointer.matches) {
+const featureInner = document.querySelector(".feature-inner");
+const featureMemoji = document.querySelector(".feature-memoji-float");
+
+if (featureInner && featureMemoji) {
+  const setDepthState = (isActive) => {
+    featureInner.classList.toggle("is-depth-active", isActive);
+    featureMemoji.setAttribute("aria-pressed", String(isActive));
+  };
+
+  featureMemoji.addEventListener("click", () => {
+    if (compactViewport.matches) {
+      setDepthState(
+        !featureInner.classList.contains("is-depth-active")
+      );
+    }
+  });
+
+  featureMemoji.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") {
+      return;
+    }
+
+    if (compactViewport.matches) {
+      event.preventDefault();
+      setDepthState(
+        !featureInner.classList.contains("is-depth-active")
+      );
+    }
+  });
+}
+
+const mobileMotionElements = document.querySelectorAll(
+  ".cover-float, .chrome-art-shell, .memoji-shell, .feature-memoji-float, .marquee-track"
+);
+
+if (
+  (!finePointer.matches || compactViewport.matches) &&
+  "IntersectionObserver" in window
+) {
+  const motionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        entry.target.classList.toggle(
+          "is-motion-active",
+          entry.isIntersecting
+        );
+      });
+    },
+    {
+      rootMargin: "120px 0px"
+    }
+  );
+
+  mobileMotionElements.forEach((element) => {
+    motionObserver.observe(element);
+  });
+}
+
+if ("IntersectionObserver" in window) {
   const depthObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -979,7 +1090,8 @@ function updateEntryScrollState() {
   if (
     !entrySection ||
     prefersReducedMotion.matches ||
-    !finePointer.matches
+    !finePointer.matches ||
+    compactViewport.matches
   ) {
     return;
   }
