@@ -888,13 +888,21 @@ if (
       }
     );
 
-  revealBlocks.forEach(
-    (block) => {
-      revealObserver.observe(
-        block
-      );
-    }
-  );
+  if (finePointer.matches) {
+    revealBlocks.forEach(
+      (block) => {
+        revealObserver.observe(
+          block
+        );
+      }
+    );
+  } else {
+    revealBlocks.forEach(
+      (block) => {
+        block.classList.add("is-visible");
+      }
+    );
+  }
 } else {
   revealBlocks.forEach(
     (block) => {
@@ -937,7 +945,7 @@ projectCards.forEach((card) => {
 
 const depthRows = document.querySelectorAll(".skill-row, .toolkit-row");
 
-if ("IntersectionObserver" in window) {
+if ("IntersectionObserver" in window && finePointer.matches) {
   const depthObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -970,7 +978,8 @@ if ("IntersectionObserver" in window) {
 function updateEntryScrollState() {
   if (
     !entrySection ||
-    prefersReducedMotion.matches
+    prefersReducedMotion.matches ||
+    !finePointer.matches
   ) {
     return;
   }

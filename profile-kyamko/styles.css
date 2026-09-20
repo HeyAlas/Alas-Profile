@@ -3621,6 +3621,46 @@ body.is-entering
     scroll-behavior: auto;
   }
 
+  .chrome-entry {
+    min-height: 100svh;
+  }
+
+  .chrome-stage {
+    position: relative;
+    min-height: 100svh;
+  }
+
+  .chrome-entry.is-revealed .chrome-art-shell,
+  #profile-entry:target .chrome-art-shell {
+    animation: none;
+  }
+
+  .chrome-entry.is-scrolled .chrome-art {
+    transform: none;
+  }
+
+  .cover-float,
+  .memoji-shell,
+  .feature-memoji-float,
+  .marquee-track {
+    animation: none;
+  }
+
+  .chrome-ambient,
+  .memoji-shell::before {
+    filter: none;
+  }
+
+  .js .reveal-block,
+  .js .skill-row,
+  .js .toolkit-row {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    transition: none;
+    will-change: auto;
+  }
+
   .site-header {
     min-height: 100svh;
   }
