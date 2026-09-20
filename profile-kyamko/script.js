@@ -608,9 +608,18 @@ function initThreeChromeScene() {
 
   const THREE = window.THREE;
 
-  if (!THREE || !window.WebGLRenderingContext || prefersReducedMotion.matches) {
+  if (
+    !THREE ||
+    !window.WebGLRenderingContext ||
+    prefersReducedMotion.matches ||
+    !finePointer.matches
+  ) {
     chromeArt.classList.add("is-fallback");
-    initChromePointerFallback();
+
+    if (finePointer.matches) {
+      initChromePointerFallback();
+    }
+
     return;
   }
 
