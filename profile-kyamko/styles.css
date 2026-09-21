@@ -167,6 +167,8 @@ body.intro-complete .intro-screen {
     translate3d(var(--orb-shift-x), var(--orb-shift-y), 0)
     scale(var(--orb-scale));
   overflow: visible;
+  color: rgba(255, 255, 255, 0.78);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.78);
   background:
     radial-gradient(
       circle at 30% 22%,
@@ -282,6 +284,7 @@ body.intro-complete .intro-screen {
   left: 50%;
   z-index: 1;
   color: rgba(255, 255, 255, 0.78);
+  -webkit-text-fill-color: rgba(255, 255, 255, 0.78);
   font-family: "Consolas", "Courier New", monospace;
   font-size: 0.62rem;
   font-weight: 400;
