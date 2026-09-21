@@ -533,6 +533,8 @@ if (entrySection) {
                   0.35
               ) {
                 revealChromeEntry();
+              } else if (!entry.isIntersecting) {
+                entrySection.classList.remove("is-revealed");
               }
             }
           );

@@ -1291,8 +1291,7 @@ body.is-entering
     ease;
 }
 
-.chrome-entry.is-revealed .chrome-ambient,
-#profile-entry:target .chrome-ambient {
+.chrome-entry.is-revealed .chrome-ambient {
   opacity: 1;
 }
 
@@ -1472,10 +1471,7 @@ body.is-entering
   transition: opacity 220ms ease-out, transform 220ms ease-out;
 }
 
-.chrome-entry.is-revealed
-.chrome-logo-wrap,
-#profile-entry:target
-.chrome-logo-wrap {
+.chrome-entry.is-revealed .chrome-logo-wrap {
   animation:
     alasReveal
     2400ms
@@ -1484,28 +1480,23 @@ body.is-entering
     forwards;
 }
 
-.chrome-entry.is-revealed .chrome-art,
-#profile-entry:target .chrome-art {
+.chrome-entry.is-revealed .chrome-art {
   animation: chromeFloatIn 2.4s var(--ease-premium) 80ms both;
 }
 
-.chrome-entry.is-revealed .chrome-art-shell,
-#profile-entry:target .chrome-art-shell {
+.chrome-entry.is-revealed .chrome-art-shell {
   animation: chromeSlowFloat 10s ease-in-out 2.5s infinite alternate;
 }
 
-.chrome-entry.is-revealed .chrome-art::before,
-#profile-entry:target .chrome-art::before {
+.chrome-entry.is-revealed .chrome-art::before {
   animation: chromeGhostText 1.6s ease-out 200ms forwards;
 }
 
-.chrome-entry.is-revealed .chrome-art::after,
-#profile-entry:target .chrome-art::after {
+.chrome-entry.is-revealed .chrome-art::after {
   animation: chromeGlow 2.4s ease-out 80ms forwards;
 }
 
-.chrome-entry.is-revealed .chrome-logo-wrap::before,
-#profile-entry:target .chrome-logo-wrap::before {
+.chrome-entry.is-revealed .chrome-logo-wrap::before {
   animation: chromeSweep 1.5s ease-out 300ms forwards;
 }
 
@@ -1688,8 +1679,7 @@ body.is-entering
   right: 10%;
 }
 
-.chrome-entry.is-revealed .chrome-star,
-#profile-entry:target .chrome-star {
+.chrome-entry.is-revealed .chrome-star {
   animation:
     starReveal
     650ms
@@ -1697,18 +1687,15 @@ body.is-entering
     forwards;
 }
 
-.chrome-entry.is-revealed .star-one,
-#profile-entry:target .star-one {
+.chrome-entry.is-revealed .star-one {
   animation-delay: 720ms;
 }
 
-.chrome-entry.is-revealed .star-two,
-#profile-entry:target .star-two {
+.chrome-entry.is-revealed .star-two {
   animation-delay: 900ms;
 }
 
-.chrome-entry.is-revealed .star-three,
-#profile-entry:target .star-three {
+.chrome-entry.is-revealed .star-three {
   animation-delay: 1080ms;
 }
 
@@ -1771,10 +1758,7 @@ body.is-entering
   text-align: right;
 }
 
-.chrome-entry.is-revealed
-.chrome-meta,
-#profile-entry:target
-.chrome-meta {
+.chrome-entry.is-revealed .chrome-meta {
   animation:
     metaReveal
     700ms
